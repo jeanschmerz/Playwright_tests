@@ -40,12 +40,12 @@ const elements: Elements[] = [
     },
   },
   {
-    locator: (page) => page.getByRole('button', { name: 'Node.js' }),
+    locator: (page: Page): Locator => page.getByRole('button', { name: 'Node.js' }),
     name: 'Node.js button',
     text: 'Node.js',
   },
   {
-    locator: (page) => page.getByRole('link', { name: 'Community' }),
+    locator: (page: Page): Locator => page.getByRole('link', { name: 'Community' }),
     name: 'Community link',
     text: 'Community',
     attribute: {
@@ -54,7 +54,7 @@ const elements: Elements[] = [
     },
   },
   {
-    locator: (page) => page.getByRole('link', { name: 'GitHub repository' }),
+    locator: (page: Page): Locator => page.getByLabel('GitHub repository'),
     name: 'GitHub icon',
     attribute: {
       type: 'href',
@@ -62,7 +62,7 @@ const elements: Elements[] = [
     },
   },
   {
-    locator: (page) => page.getByRole('link', { name: 'Discord server' }),
+    locator: (page: Page): Locator => page.getByLabel('Discord server'),
     name: 'Discord icon',
     attribute: {
       type: 'href',
@@ -70,16 +70,27 @@ const elements: Elements[] = [
     },
   },
   {
-    locator: (page) => page.getByRole('button', { name: 'Switch between dark and light' }),
+    locator: (page: Page): Locator => page.getByLabel('Switch between dark and light'),
     name: 'Light mode icon',
   },
   {
-    locator: (page) => page.getByRole('button', { name: 'Search (Ctrl+K)' }),
+    locator: (page: Page): Locator => page.getByLabel('Search (Ctrl+K)'),
     name: 'Search input',
   },
   {
-    locator: (page) => page.getByRole('button', { name: 'Search (Ctrl+K)' }),
-    name: 'Search input',
+    locator: (page: Page): Locator =>
+      page.getByRole('heading', { name: 'Playwright enables reliable' }),
+    name: 'Title',
+    text: 'Playwright enables reliable end-to-end testing for modern web apps.',
+  },
+  {
+    locator: (page: Page): Locator => page.getByRole('link', { name: 'Get started' }),
+    name: 'Get started button',
+    text: 'Get started',
+    attribute: {
+      type: 'href',
+      value: '/docs/intro',
+    },
   },
 ];
 
@@ -87,7 +98,7 @@ test.describe('тесты главной страницы', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('https://playwright.dev/');
   });
-  test('Проверка наличия элементов навигации хедера', async ({ page }) => {
+  test('Проверка отображения элементов навигации хедера', async ({ page }) => {
     elements.forEach(({ locator, name }) => {
       test.step(`Проверка отображения элемента ${name}`, async () => {
         await expect.soft(locator(page)).toBeVisible();
@@ -98,7 +109,7 @@ test.describe('тесты главной страницы', () => {
     elements.forEach(({ locator, name, text }) => {
       if (text) {
         test.step(`Проверка названия элемента ${name}`, async () => {
-          await expect(locator(page)).toContainText(text);
+          await expect.soft(locator(page)).toContainText(text);
         });
       }
     });
@@ -107,7 +118,7 @@ test.describe('тесты главной страницы', () => {
     elements.forEach(({ locator, name, attribute }) => {
       if (attribute) {
         test.step(`Проверка атрибута href элемента ${name}`, async () => {
-          await expect(locator(page)).toHaveAttribute(attribute?.type, attribute?.value);
+          await expect.soft(locator(page)).toHaveAttribute(attribute?.type, attribute?.value);
         });
       }
     });
@@ -116,20 +127,5 @@ test.describe('тесты главной страницы', () => {
     await page.getByLabel('Switch between dark and light').click();
     await page.getByLabel('Switch between dark and light').click();
     await expect.soft(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  });
-  test('Проверка заголовка страницы', async ({ page }) => {
-    await expect
-      .soft(page.getByRole('heading', { name: 'Playwright enables reliable' }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Playwright enables reliable' }))
-      .toContainText('Playwright enables reliable end-to-end testing for modern web apps.');
-  });
-  test('Проверка кнопки GetStarted', async ({ page }) => {
-    await expect.soft(page.getByRole('link', { name: 'Get started' })).toBeVisible();
-    await expect.soft(page.getByRole('link', { name: 'Get started' })).toContainText('Get started');
-    await expect
-      .soft(page.getByRole('link', { name: 'Get started' }))
-      .toHaveAttribute('href', '/docs/intro');
   });
 });
