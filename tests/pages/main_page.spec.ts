@@ -41,4 +41,12 @@ test.describe('тесты главной страницы', () => {
       await mainPage.checkLayoutWithDarkMode();
     });
   });
+  test(`Проверка стилей c системной темой`, async () => {
+    await test.step('Установка системной темы', async () => {
+      await mainPage.setSystemMode();
+    });
+    await test.step('Проверка c активной системной темой', async () => {
+      await mainPage.checkLayoutWithSystemMode();
+    });
+  });
 });

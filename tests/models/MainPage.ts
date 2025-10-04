@@ -131,25 +131,32 @@ export class MainPage {
   }
   async clickSwitchLightModeIcon() {
     await this.page.getByLabel('Switch between dark and light').click();
-    await this.page.getByLabel('Switch between dark and light').click();
   }
   async checkDataThemeAttributeValue() {
-    await expect.soft(this.page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect.soft(this.page.locator('html')).toHaveAttribute('data-theme-choice', 'light');
   }
   async setLightMode() {
     await this.page.evaluate((value) => {
-      document.querySelector('html')?.setAttribute('data-theme', 'light');
+      document.querySelector('html')?.setAttribute('data-theme-choice', 'light');
     });
   }
   async setDarkMode() {
     await this.page.evaluate((value) => {
-      document.querySelector('html')?.setAttribute('data-theme', 'dark');
+      document.querySelector('html')?.setAttribute('data-theme-choice', 'dark');
+    });
+  }
+  async setSystemMode() {
+    await this.page.evaluate((value) => {
+      document.querySelector('html')?.setAttribute('data-theme-choice', 'system');
     });
   }
   async checkLayoutWithLightMode() {
     await expect(this.page).toHaveScreenshot(`PageWithLightMode.png`);
   }
   async checkLayoutWithDarkMode() {
-    await expect(this.page).toHaveScreenshot(`PageWithDarkkMode.png`);
+    await expect(this.page).toHaveScreenshot(`PageWithDarkMode.png`);
+  }
+  async checkLayoutWithSystemMode() {
+    await expect(this.page).toHaveScreenshot(`PageWithSystemMode.png`);
   }
 }
