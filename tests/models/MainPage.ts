@@ -150,6 +150,6 @@ export class MainPage {
     await expect(this.page).toHaveScreenshot(`PageWithLightMode.png`);
   }
   async checkLayoutWithDarkMode() {
-    await expect(this.page).toHaveScreenshot(`PageWithDarkMode.png`);
+    await expect(this.page).toHaveScreenshot(`PageWithDarkkMode.png`);
   }
 }
