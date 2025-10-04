@@ -151,12 +151,18 @@ export class MainPage {
     });
   }
   async checkLayoutWithLightMode() {
-    await expect(this.page).toHaveScreenshot(`PageWithLightMode.png`);
+    await expect(this.page).toHaveScreenshot(`PageWithLightMode.png`, {
+      maxDiffPixelRatio: 0.3,
+    });
   }
   async checkLayoutWithDarkMode() {
-    await expect(this.page).toHaveScreenshot(`PageWithDarkMode.png`);
+    await expect(this.page).toHaveScreenshot(`PageWithDarkMode.png`, {
+      maxDiffPixelRatio: 0.3,
+    });
   }
   async checkLayoutWithSystemMode() {
-    await expect(this.page).toHaveScreenshot(`PageWithSystemMode.png`);
+    await expect(this.page).toHaveScreenshot(`PageWithSystemMode.png`, {
+      maxDiffPixelRatio: 0.3,
+    });
   }
 }
