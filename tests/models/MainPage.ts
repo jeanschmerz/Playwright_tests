@@ -1,5 +1,4 @@
 import test, { expect, Locator, Page } from '@playwright/test';
-import { text } from 'stream/consumers';
 
 interface Elements {
   locator: (page: Page) => Locator;
@@ -102,7 +101,7 @@ export class MainPage {
     ];
   }
   async openMainPage() {
-    await this.page.goto('https://playwright.dev/');
+    await this.page.goto('/');
   }
   async checkElementsVisibility() {
     for (const { locator, name } of this.elements) {
@@ -136,17 +135,17 @@ export class MainPage {
     await expect.soft(this.page.locator('html')).toHaveAttribute('data-theme-choice', 'light');
   }
   async setLightMode() {
-    await this.page.evaluate((value) => {
+    await this.page.evaluate(() => {
       document.querySelector('html')?.setAttribute('data-theme-choice', 'light');
     });
   }
   async setDarkMode() {
-    await this.page.evaluate((value) => {
+    await this.page.evaluate(() => {
       document.querySelector('html')?.setAttribute('data-theme-choice', 'dark');
     });
   }
   async setSystemMode() {
-    await this.page.evaluate((value) => {
+    await this.page.evaluate(() => {
       document.querySelector('html')?.setAttribute('data-theme-choice', 'system');
     });
   }
